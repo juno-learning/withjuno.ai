@@ -1,5 +1,6 @@
 import React from "react"
 import type { Metadata } from 'next'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Geist, Geist_Mono, JetBrains_Mono, Silkscreen } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
@@ -38,9 +39,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased ${jetbrainsMono.variable}`} style={{ backgroundColor: "#000000" }}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`font-sans antialiased ${jetbrainsMono.variable}`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

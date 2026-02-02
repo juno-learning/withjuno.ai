@@ -1,10 +1,12 @@
 "use client"
 
+import Image from "next/image"
 import { Dithering } from "@paper-design/shaders-react"
 import { AnimatedMarkdown } from "flowtoken"
 import { MegaphoneOff, X } from 'lucide-react';
 import "flowtoken/dist/styles.css"
 import { useState, useEffect, useRef } from "react"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -25,29 +27,23 @@ We build AI models and learning tools designed from the ground up with pedagogy 
 **Sovereignty** — Institution and student data stays private. Your servers, or ours, but always off big-cloud platforms.`
 
 function JunoLogo({ isDarkMode }: { isDarkMode: boolean }) {
-  const fillColor = isDarkMode ? "#EDF2FF" : "#000000"
-  
   return (
-    <svg viewBox="479 398 341 105" className="h-6 w-auto">
-      <g fill={fillColor}>
-        <path d="M514.71,401.46c-1.81-1.81-4.06-2.72-6.75-2.72s-4.95.91-6.76,2.72c-1.81,1.81-2.72,4.02-2.72,6.64s.91,4.83,2.72,6.64c1.81,1.81,4.06,2.71,6.76,2.71s4.94-.9,6.75-2.71c1.81-1.81,2.72-4.02,2.72-6.64s-.91-4.83-2.72-6.64ZM500.45,426.11v75.16c10.01-2.27,15.01-9.15,15.01-20.61v-54.55h-15.01Z"/>
-        <path d="M587.19,470.47c-3.31,0-4.97-1.66-4.97-4.97v-39.39h-15.01v33.15c0,3.78-1.2,6.82-3.59,9.13-2.38,2.31-5.5,3.46-9.35,3.46-3.62,0-6.55-1.11-8.78-3.35-2.23-2.23-3.35-5.23-3.35-9.01v-33.38h-15.01v37.77c0,6.78,2.04,12.23,6.12,16.35,4.08,4.12,9.43,6.18,16.05,6.18,8.16,0,14.56-3.39,19.18-10.17,2.23,5.85,7.43,8.78,15.59,8.78h4.27v-14.55h-1.15Z"/>
-        <path d="M655.57,470.47c-3.31,0-4.96-1.66-4.96-4.97v-17.9c0-6.93-2.1-12.48-6.3-16.63-4.19-4.16-9.76-6.24-16.69-6.24-7.85,0-14.09,2.89-18.71,8.66v-7.28h-15.01v58.91h15.01v-32.34c0-4,1.27-7.24,3.81-9.7,2.54-2.47,5.89-3.7,10.05-3.7,3.85,0,6.95,1.2,9.3,3.58,2.35,2.39,3.52,5.59,3.52,9.59v16.28c0,10.86,5.66,16.29,16.98,16.29h4.28v-14.55h-1.28Z"/>
-        <path d="M716.5,433.56c-6.05-5.89-13.58-8.83-22.59-8.83s-16.53,2.94-22.58,8.83c-6.04,5.89-9.06,13.23-9.06,22.01s3.02,16.11,9.06,22c6.05,5.89,13.58,8.84,22.58,8.84s16.54-2.95,22.59-8.84c6.04-5.89,9.06-13.22,9.06-22s-3.02-16.12-9.06-22.01ZM705.47,467.18c-3.09,3.11-6.94,4.67-11.56,4.67s-8.47-1.56-11.54-4.67c-3.09-3.12-4.63-6.99-4.63-11.61s1.54-8.49,4.63-11.61c3.07-3.12,6.92-4.68,11.54-4.68s8.47,1.56,11.56,4.68c3.07,3.12,4.61,6.99,4.61,11.61s-1.54,8.49-4.61,11.61Z"/>
-        <path d="M803.37,475.43c-1.77,0-3.19-.53-4.27-1.61-1.08-1.08-1.62-2.5-1.62-4.28v-43.43h-9.93v11.21c-2.46-3.93-5.68-7.01-9.64-9.24-3.97-2.23-8.38-3.35-13.23-3.35-8.39,0-15.4,2.94-21.02,8.83-5.62,5.89-8.43,13.23-8.43,22.01s2.81,16.11,8.43,22c5.62,5.89,12.63,8.84,21.02,8.84,4.85,0,9.28-1.14,13.28-3.41,4.01-2.27,7.24-5.41,9.71-9.41.38,3.69,1.75,6.52,4.1,8.48,2.34,1.97,5.56,2.95,9.64,2.95h3.12v-9.59h-1.16ZM781.54,470.76c-4,4.04-9,6.06-15.01,6.06s-11.13-2.02-15.13-6.06c-4-4.05-6.01-9.11-6.01-15.19s2.01-11.15,6.01-15.19,9.05-6.06,15.13-6.06,11.01,2.02,15.01,6.06c4.01,4.04,6.01,9.11,6.01,15.19s-2,11.14-6.01,15.19Z"/>
-        <path d="M809.15,426.11v58.91h9.93v-58.91h-9.93ZM818.79,403.01c-1.27-1.23-2.83-1.84-4.68-1.84s-3.52.61-4.79,1.84c-1.27,1.24-1.91,2.82-1.91,4.74s.64,3.41,1.91,4.68,2.87,1.9,4.79,1.9,3.41-.63,4.68-1.9c1.27-1.27,1.91-2.83,1.91-4.68s-.64-3.5-1.91-4.74Z"/>
-      </g>
-      <path fill={fillColor} d="M479.3,482.37h16.53v18.89h0c-9.12,0-16.53-7.41-16.53-16.53v-2.36h0Z"/>
-    </svg>
+    <Image
+      src={isDarkMode ? "/logos/juno-logo-dark.svg" : "/logos/juno-logo-light.svg"}
+      alt="Juno AI"
+      width={341}
+      height={105}
+      className="h-6 w-auto"
+    />
   )
 }
 
 function PartnerLogos() {
   return (
     <div className="flex items-center gap-8">
-      <img src="/logos/aea.png" alt="AEA" className="h-10 w-auto" />
-      <img src="/logos/unsw.png" alt="UNSW" className="h-10 w-auto" />
-      <img src="/logos/dcc.svg" alt="DCC" className="h-10 w-auto" />
+      <Image src="/logos/aea.png" alt="AEA" width={120} height={40} className="h-10 w-auto" />
+      <Image src="/logos/unsw.png" alt="UNSW" width={120} height={40} className="h-10 w-auto" />
+      <Image src="/logos/dcc.svg" alt="DCC" width={120} height={40} className="h-10 w-auto" />
     </div>
   )
 }
@@ -171,15 +167,20 @@ function ContactForm({ onClose }: { onClose: () => void }) {
 }
 
 export default function JunoLanding() {
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
   const [showContact, setShowContact] = useState(false)
   const { displayed: streamedContent, done: streamDone } = useStreamedContent(MAIN_CONTENT, 2500)
 
+  useEffect(() => setMounted(true), [])
+
+  const isDarkMode = resolvedTheme === "dark"
+
   return (
-    <div className={`relative min-h-screen overflow-hidden flex flex-col ${isDarkMode ? "dark" : ""}`} style={{ backgroundColor: isDarkMode ? "#000000" : "#EDF2FF" }}>
+    <div className="relative min-h-screen overflow-hidden flex flex-col bg-background text-foreground">
       {/* Announcement Banner */}
-      <div className="w-full text-center py-2.5 px-4 z-20" style={{ backgroundColor: isDarkMode ? "#000000" : "#EDF2FF" }}>
-        <span className="font-code text-[11px] tracking-wide" style={{ color: "#3366FF" }}>
+      <div className="w-full text-center py-2.5 px-4 z-20 bg-background">
+        <span className="font-code text-[11px] tracking-wide text-primary">
           <AnimatedMarkdown 
             content={BANNER_TEXT}
             animation="fadeIn"
@@ -192,18 +193,17 @@ export default function JunoLanding() {
       
       <div className="flex flex-col lg:flex-row flex-1">
         <div
-          className="w-full lg:w-1/2 p-8 lg:p-12 font-mono relative z-10 flex flex-col min-h-[calc(100vh-36px)] lg:min-h-0 text-foreground"
-          style={{ backgroundColor: isDarkMode ? "#000000" : "#EDF2FF" }}
+          className="w-full lg:w-1/2 p-8 lg:p-12 font-mono relative z-10 flex flex-col min-h-[calc(100vh-36px)] lg:min-h-0 text-foreground bg-background"
         >
           {/* Theme toggle */}
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setIsDarkMode(!isDarkMode)}
+            onClick={() => setTheme(isDarkMode ? "light" : "dark")}
             className="absolute top-8 right-8 z-10"
             aria-label="Toggle theme"
           >
-            {isDarkMode ? (
+            {!mounted ? null : isDarkMode ? (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="5" />
                 <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
@@ -272,7 +272,7 @@ export default function JunoLanding() {
 
               {/* Footer */}
               <div className="pt-8 border-t border-border">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between gap-4">
                   <Button
                     variant="link"
                     onClick={() => setShowContact(true)}
@@ -293,8 +293,8 @@ export default function JunoLanding() {
         <div className="hidden lg:block w-1/2 relative">
           <Dithering
             style={{ height: "100%", width: "100%" }}
-            colorBack={isDarkMode ? "#000000" : "#EDF2FF"}
-            colorFront={isDarkMode ? "#3366FF" : "#3366FF"}
+            colorBack={mounted && isDarkMode ? "#000000" : "#EDF2FF"}
+            colorFront="#3366FF"
             shape="cats"
             type="4x4"
             pxSize={3}

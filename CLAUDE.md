@@ -29,3 +29,4 @@ Juno AI landing page — a Next.js 15 app (App Router) built with TypeScript, Re
 - **Contact form** submits to Web3Forms API (`https://api.web3forms.com/submit`).
 - **Notable libraries**: `flowtoken` (animated markdown streaming), `@paper-design/shaders-react` (dithering background effect), Radix UI primitives.
 - **Fonts**: Geist Sans, Geist Mono, JetBrains Mono, Silkscreen (loaded via `next/font`).
+- **Images**: Always use Next.js `<Image>` component (`next/image`) instead of `<img>` tags.
