@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
-const BANNER_TEXT = "Juno AI raises $500k from Australian Economic Accelerator"
+const BANNER_TEXT = "junoai raises $500k from Australian Economic Accelerator"
 
 const MAIN_CONTENT = `# Foundation models built for education
 
@@ -180,7 +180,7 @@ export default function JunoLanding() {
     <div className="relative min-h-screen overflow-hidden flex flex-col bg-background text-foreground">
       {/* Announcement Banner */}
       <div className="w-full text-center py-2.5 px-4 z-20 bg-background">
-        <span className="font-code text-[11px] tracking-wide text-primary">
+        <span className="font-code text-[9px] sm:text-[11px] tracking-wide text-primary">
           <AnimatedMarkdown 
             content={BANNER_TEXT}
             animation="fadeIn"
