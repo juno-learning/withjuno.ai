@@ -238,7 +238,7 @@ export default function JunoLanding() {
                 <div className="invisible" aria-hidden="true">
                   <AnimatedMarkdown content={MAIN_CONTENT} animation={null} sep="word" />
                   <div className="flex gap-8 text-sm mt-8 not-prose">
-                    <div><span className="text-2xl font-normal">559K+</span><p className="text-muted-foreground text-xs mt-1">Uses</p></div>
+                    <div><span className="text-2xl font-normal">640k+</span><p className="text-muted-foreground text-xs mt-1">Uses</p></div>
                     <div><span className="text-2xl font-normal">+50%</span><p className="text-muted-foreground text-xs mt-1">on pedagogical benchmarks</p></div>
                   </div>
                 </div>
@@ -253,7 +253,7 @@ export default function JunoLanding() {
                   />
                   <div className={`flex gap-8 text-sm mt-8 not-prose transition-opacity duration-300 ${streamDone ? "opacity-100" : "opacity-0"}`}>
                     <div>
-                      <span className="text-2xl font-normal">559K+</span>
+                      <span className="text-2xl font-normal">640k+</span>
                       <p className="text-muted-foreground text-xs mt-1">Uses</p>
                     </div>
                     <div>
