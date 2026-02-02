@@ -117,14 +117,14 @@ function ContactForm({ onClose }: { onClose: () => void }) {
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-xl font-medium">Get in touch</h2>
-        <Button
+        {/* <Button
           variant="ghost"
           size="icon"
           onClick={onClose}
           aria-label="Close contact form"
         >
           <X size={20} />
-        </Button>
+        </Button> */}
       </div>
 
       <div className="flex-1 overflow-y-auto">
@@ -160,7 +160,7 @@ function ContactForm({ onClose }: { onClose: () => void }) {
             ))}
             <div className="flex items-center gap-4 pt-2">
               <Button type="submit" disabled={submitting}>Submit</Button>
-              <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+              <Button type="button" variant="ghost" onClick={onClose}>Close</Button>
             </div>
             {result && <p className="text-sm text-muted-foreground">{result}</p>}
           </form>
