@@ -26,17 +26,26 @@ We build AI models and learning tools designed from the ground up with pedagogy 
 
 **Sovereignty** — Institution and student data stays private. Your servers, or ours, but always off big-cloud platforms.`;
 
-function JunoLogo({ isDarkMode }: { isDarkMode: boolean }) {
+function JunoLogo() {
   return (
-    <Image
-      src={
-        isDarkMode ? "/logos/juno-logo-dark.svg" : "/logos/juno-logo-light.svg"
-      }
-      alt="Juno AI"
-      width={341}
-      height={105}
-      className="h-6 w-auto"
-    />
+    <>
+      <Image
+        src="/logos/juno-logo-light.svg"
+        alt="Juno AI"
+        width={341}
+        height={105}
+        className="h-6 w-auto block dark:hidden"
+        priority
+      />
+      <Image
+        src="/logos/juno-logo-dark.svg"
+        alt="Juno AI"
+        width={341}
+        height={105}
+        className="h-6 w-auto hidden dark:block"
+        priority
+      />
+    </>
   );
 }
 
@@ -48,21 +57,24 @@ function PartnerLogos() {
         alt="AEA"
         width={120}
         height={40}
-        className="h-10 w-auto"
+        className="h-10"
+        style={{ width: "auto" }}
       />
       <Image
         src="/logos/unsw.png"
         alt="UNSW"
         width={120}
         height={40}
-        className="h-10 w-auto"
+        className="h-10"
+        style={{ width: "auto" }}
       />
       <Image
         src="/logos/dcc.svg"
         alt="DCC"
         width={120}
         height={40}
-        className="h-10 w-auto"
+        className="h-10"
+        style={{ width: "auto" }}
       />
     </div>
   );
@@ -300,7 +312,7 @@ export default function JunoLanding() {
             <>
               {/* Header */}
               <div className="mb-12">
-                <JunoLogo isDarkMode={isDarkMode} />
+                <JunoLogo />
               </div>
               <div className="flex-1">
                 <ContactForm onClose={() => setShowContact(false)} />
@@ -310,7 +322,7 @@ export default function JunoLanding() {
             <>
               {/* Header */}
               <div className="mb-12">
-                <JunoLogo isDarkMode={isDarkMode} />
+                <JunoLogo />
               </div>
 
               {/* Main Content with Streaming Animation */}
