@@ -16,7 +16,7 @@ type Tab = "home" | "about" | "contact";
 
 const MAIN_CONTENT = `# Foundation models built for education
 
-We build AI models and learning tools designed from the ground up with pedagogy in mind—for schools and institutions.
+We build AI models and learning tools designed with pedagogy in mind—for schools and institutions.
 
 **Models** — LLMs trained to teach, not just answer. Pedagogy embedded at the core.
 
@@ -27,7 +27,7 @@ We build AI models and learning tools designed from the ground up with pedagogy 
 **Sovereignty** — Institution and student data stays private. Your servers, or ours, but always off big-cloud platforms.`;
 
 const ABOUT_CONTENT = `# About Juno AI
-We are a team of leading academics across ML and education from UNSW in Sydney, Australia. If you'd like to work with us, our doors are open.`;
+We are a team of leading academics across ML and education from UNSW in Sydney, Australia. We are looking for exceptional founding staff.`;
 
 const TEAM_MEMBERS = [
   {
@@ -397,7 +397,7 @@ function ContactContent({ visible }: { visible: boolean }) {
         <h1>Get in touch</h1>
         <p>
           {
-            "We'd love to hear from you — whether you're an institution exploring AI, a researcher interested in collaboration, or someone who wants to join the team."
+            "We're looking for collaborations across institutions, researchers, and founding staff."
           }
         </p>
       </div>
