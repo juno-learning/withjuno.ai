@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Dithering, ImageDithering } from "@paper-design/shaders-react";
+import { Dithering } from "@paper-design/shaders-react";
 import { AnimatedMarkdown } from "flowtoken";
 import { MegaphoneOff } from "lucide-react";
 import "flowtoken/dist/styles.css";
@@ -27,7 +27,7 @@ We build AI models and learning tools designed from the ground up with pedagogy 
 **Sovereignty** — Institution and student data stays private. Your servers, or ours, but always off big-cloud platforms.`;
 
 const ABOUT_CONTENT = `# About Juno AI
-We are a team of leading academics across ML and education from UNSW in Sydney, Australia. If you'd like to work with us, our doors are always open.`;
+We are a team of leading academics across ML and education from UNSW in Sydney, Australia. If you'd like to work with us, our doors are open.`;
 
 const TEAM_MEMBERS = [
   {
@@ -236,36 +236,15 @@ const DitheringPanel = memo(function DitheringPanel({
   );
 });
 
-function DitheredTeamPhoto({
-  photo,
-  isDarkMode,
-  mounted,
-}: {
-  photo: string;
-  isDarkMode: boolean;
-  mounted: boolean;
-}) {
-  const [hovered, setHovered] = useState(false);
-
+function TeamPhoto({ photo, name }: { photo: string; name: string }) {
   return (
-    <div
-      className="aspect-square w-1/2 overflow-hidden rounded-lg"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <ImageDithering
-        image={photo}
-        colorFront="#3366FF"
-        colorBack={mounted && isDarkMode ? "#000000" : "#EDF2FF"}
-        colorHighlight="#33A9FF"
-        type="4x4"
-        size={2}
-        colorSteps={hovered ? 7 : 3}
-        originalColors={hovered}
-        size={hovered ? 0.5 : 2}
-        fit="cover"
-        speed={0}
-        style={{ width: "100%", height: "100%" }}
+    <div className="aspect-square w-1/2 overflow-hidden rounded-lg">
+      <Image
+        src={photo}
+        alt={name}
+        width={200}
+        height={200}
+        className="w-full h-full object-cover"
       />
     </div>
   );
@@ -354,69 +333,24 @@ function HomeContent({ visible, skip }: { visible: boolean; skip: boolean }) {
   );
 }
 
-function AboutContent({
-  visible,
-  skip,
-  isDarkMode,
-  mounted,
-}: {
-  visible: boolean;
-  skip: boolean;
-  isDarkMode: boolean;
-  mounted: boolean;
-}) {
-  const { displayed: streamedContent, done: streamDone } = useStreamedContent(
-    ABOUT_CONTENT,
-    2500,
-    skip,
-  );
-
+function AboutContent({ visible }: { visible: boolean }) {
   return (
     <div
       style={{ display: visible ? "flex" : "none" }}
       className="flex-col flex-1"
     >
-      {/* About text with streaming */}
-      <div className="prose prose-sm dark:prose-invert max-w-md relative">
-        <div className="invisible" aria-hidden="true">
-          <AnimatedMarkdown
-            content={ABOUT_CONTENT}
-            animation={null}
-            sep="word"
-          />
-        </div>
-        <div className="absolute inset-0">
-          <AnimatedMarkdown
-            content={streamedContent}
-            animation="fadeIn"
-            animationDuration="0.3s"
-            animationTimingFunction="ease-out"
-            sep="diff"
-          />
-        </div>
+      <div className="prose prose-sm dark:prose-invert max-w-md">
+        <h1>About Juno AI</h1>
+        <p>{ABOUT_CONTENT.replace("# About Juno AI\n", "")}</p>
       </div>
 
       {/* Team grid */}
-      <div
-        className="pt-8 transition-opacity duration-500"
-        style={{ opacity: streamDone ? 1 : 0 }}
-      >
+      <div className="pt-8">
         <h3 className="text-sm font-medium mb-4">Team</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {TEAM_MEMBERS.map((member, i) => (
-            <div
-              key={member.name}
-              className="transition-opacity duration-500"
-              style={{
-                opacity: streamDone ? 1 : 0,
-                transitionDelay: `${i * 150}ms`,
-              }}
-            >
-              <DitheredTeamPhoto
-                photo={member.photo}
-                isDarkMode={isDarkMode}
-                mounted={mounted}
-              />
+          {TEAM_MEMBERS.map((member) => (
+            <div key={member.name}>
+              <TeamPhoto photo={member.photo} name={member.name} />
               <p className="text-xs font-medium mt-2">{member.name}</p>
               <p className="text-[10px] text-muted-foreground">{member.role}</p>
             </div>
@@ -619,12 +553,7 @@ export default function JunoLanding() {
             />
           )}
           {mountedTabs.has("about") && (
-            <AboutContent
-              visible={activeTab === "about"}
-              skip={getSkip("about")}
-              isDarkMode={isDarkMode}
-              mounted={mounted}
-            />
+            <AboutContent visible={activeTab === "about"} />
           )}
           {mountedTabs.has("contact") && (
             <ContactContent visible={activeTab === "contact"} />
