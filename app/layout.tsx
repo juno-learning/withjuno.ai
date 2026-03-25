@@ -1,13 +1,17 @@
 import React from "react"
 import type { Metadata } from 'next'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Geist, Geist_Mono, JetBrains_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, JetBrains_Mono, Instrument_Serif, Lora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { TopNav } from '@/components/top-nav'
+import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-code" });
+const instrumentSerif = Instrument_Serif({ weight: "400", subsets: ["latin"], variable: "--font-serif" });
+const lora = Lora({ subsets: ["latin"], variable: "--font-body-serif" });
 
 export const metadata: Metadata = {
   title: 'Juno AI | Pedagogical AI for Education',
@@ -39,9 +43,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans antialiased ${geist.variable} ${geistMono.variable} ${jetbrainsMono.variable}`}>
+      <body className={`font-sans antialiased ${geist.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} ${lora.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <TopNav />
           {children}
+          <SiteFooter />
         </ThemeProvider>
         <Analytics />
       </body>

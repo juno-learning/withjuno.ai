@@ -79,6 +79,8 @@
 
 @theme inline {
   --font-code: var(--font-code);
+  --font-serif: var(--font-serif);
+  --font-body-serif: var(--font-body-serif);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -153,14 +155,17 @@
 
 /* Flowtoken prose overrides */
 .prose h1 {
-  @apply text-2xl lg:text-3xl font-normal leading-tight mb-4 text-foreground;
+  font-family: var(--font-serif), serif;
+  @apply text-5xl lg:text-6xl font-normal leading-tight mb-6 text-foreground;
 }
 
 .prose p {
-  @apply text-sm text-muted-foreground mb-6;
+  font-family: var(--font-body-serif), serif;
+  @apply text-lg lg:text-xl text-muted-foreground mb-6;
 }
 
 .prose strong {
+  font-family: var(--font-body-serif), serif;
   @apply text-foreground font-medium;
 }
 
@@ -171,4 +176,14 @@
 
 .dark .prose p {
   @apply text-muted-foreground;
+}
+
+/* Terminal cursor blink */
+.terminal-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
