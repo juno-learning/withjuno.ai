@@ -17,22 +17,8 @@ export const metadata: Metadata = {
   title: 'Juno AI | Pedagogical AI for Education',
   description: 'Building artificial intelligence that benefits all learners. Pedagogically sound, privacy-first AI models for education.',
   generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+  appleWebApp: {
+    title: 'Juno',
   },
 }
 
