@@ -14,6 +14,7 @@ const instrumentSerif = Instrument_Serif({ weight: "400", subsets: ["latin"], va
 const lora = Lora({ subsets: ["latin"], variable: "--font-body-serif" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.withjuno.ai'),
   title: 'Juno AI | Pedagogical AI for Education',
   description: 'Building artificial intelligence that benefits all learners. Pedagogically sound, privacy-first AI models for education.',
   generator: 'v0.app',
