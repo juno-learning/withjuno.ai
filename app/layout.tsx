@@ -20,6 +20,24 @@ export const metadata: Metadata = {
   appleWebApp: {
     title: 'Juno',
   },
+  openGraph: {
+    title: 'Juno AI | Pedagogical AI for Education',
+    description: 'Building artificial intelligence that benefits all learners. Pedagogically sound, privacy-first AI models for education.',
+    images: [
+      {
+        url: '/opengraph.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Juno AI',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Juno AI | Pedagogical AI for Education',
+    description: 'Building artificial intelligence that benefits all learners. Pedagogically sound, privacy-first AI models for education.',
+    images: ['/opengraph.jpg'],
+  },
 }
 
 export default function RootLayout({
