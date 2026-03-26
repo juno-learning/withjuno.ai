@@ -54,7 +54,7 @@ const ENGINEERING: TeamMember[] = [
 export default function AboutPage() {
   return (
     <section className="px-8 lg:px-24 py-24 lg:py-32">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <h1
           className="text-4xl lg:text-5xl mb-4 text-foreground"
           style={{ fontFamily: "var(--font-serif), serif" }}
