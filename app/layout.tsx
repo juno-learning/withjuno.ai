@@ -45,9 +45,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans antialiased ${geist.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} ${lora.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TopNav />
-          {children}
-          <SiteFooter />
+          <div className="flex flex-col min-h-screen">
+            <TopNav />
+            <main className="flex-1">
+              {children}
+            </main>
+            <SiteFooter />
+          </div>
         </ThemeProvider>
         <Analytics />
       </body>

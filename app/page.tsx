@@ -120,19 +120,19 @@ function HeroContactForm() {
 
   return (
     <div className="mt-8 max-w-md">
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+      <form onSubmit={handleSubmit} className="flex flex-row gap-2">
         <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
           required
-          className="flex-1 rounded-full px-5 h-11 bg-card border-border"
+          className="flex-1 min-w-0 rounded-full px-5 h-11 bg-card border-border"
         />
         <Button
           type="submit"
           disabled={submitting}
-          className="rounded-full h-11 px-6"
+          className="rounded-full h-11 px-6 shrink-0"
         >
           {submitting ? "Sending..." : "Get in touch"}
         </Button>
@@ -155,7 +155,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="min-h-[calc(100vh-57px)] flex flex-col lg:flex-row">
         {/* Left: heading + tagline + contact form */}
-        <div className="w-full lg:w-[52%] px-8 lg:px-12 py-12 lg:py-0 flex flex-col justify-center items-center">
+        <div className="w-full lg:w-[52%] px-8 lg:px-12 py-12 lg:py-0 flex flex-col justify-center items-center min-h-[calc(100vh-57px)] lg:min-h-0">
           <div className="max-w-lg">
             <h1
               className="text-5xl lg:text-6xl leading-tight mb-6 text-foreground"
@@ -182,27 +182,70 @@ export default function HomePage() {
       <section className="px-8 lg:px-24 py-24 lg:py-32">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
-            {[
-              { title: "Models", description: "LLMs trained to teach, not just answer. Pedagogy embedded at the core." },
-              { title: "Tools", description: "Learning applications powered by our models, tailored to curricula." },
-              { title: "Research", description: "New ML benchmarks to measure what matters in education." },
-              { title: "Sovereignty", description: "Institution and student data stays private. Your servers, or ours, but always off big-cloud platforms." },
-            ].map((section) => (
-              <div key={section.title}>
-                <h3
-                  className="text-2xl lg:text-3xl mb-3 text-foreground"
-                  style={{ fontFamily: "var(--font-serif), serif" }}
+            <div>
+              <h3
+                className="text-2xl lg:text-3xl mb-3 text-foreground"
+                style={{ fontFamily: "var(--font-serif), serif" }}
+              >
+                Models
+              </h3>
+              <p
+                className="text-base lg:text-lg text-muted-foreground"
+                style={{ fontFamily: "var(--font-body-serif), serif" }}
+              >
+                LLMs fine-tuned to guide, not give away the answer. Pedagogy is embedded at the model level.
+              </p>
+            </div>
+            <div>
+              <h3
+                className="text-2xl lg:text-3xl mb-3 text-foreground"
+                style={{ fontFamily: "var(--font-serif), serif" }}
+              >
+                Tools
+              </h3>
+              <p
+                className="text-base lg:text-lg text-muted-foreground"
+                style={{ fontFamily: "var(--font-body-serif), serif" }}
+              >
+                Compiler-integrated AI that meets students where they are.{" "}
+                <a
+                  href="https://github.com/COMP1511UNSW/dcc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary/80 underline underline-offset-2 transition-colors"
                 >
-                  {section.title}
-                </h3>
-                <p
-                  className="text-base lg:text-lg text-muted-foreground"
-                  style={{ fontFamily: "var(--font-body-serif), serif" }}
-                >
-                  {section.description}
-                </p>
-              </div>
-            ))}
+                  See DCC
+                </a>
+              </p>
+            </div>
+            <div>
+              <h3
+                className="text-2xl lg:text-3xl mb-3 text-foreground"
+                style={{ fontFamily: "var(--font-serif), serif" }}
+              >
+                Research
+              </h3>
+              <p
+                className="text-base lg:text-lg text-muted-foreground"
+                style={{ fontFamily: "var(--font-body-serif), serif" }}
+              >
+                Peer-reviewed work on pedagogical benchmarks, fine-tuning, and how AI can genuinely teach.
+              </p>
+            </div>
+            <div>
+              <h3
+                className="text-2xl lg:text-3xl mb-3 text-foreground"
+                style={{ fontFamily: "var(--font-serif), serif" }}
+              >
+                Sovereignty
+              </h3>
+              <p
+                className="text-base lg:text-lg text-muted-foreground"
+                style={{ fontFamily: "var(--font-body-serif), serif" }}
+              >
+                Institution and student data stays private. Your servers or ours, but always off big-cloud platforms.
+              </p>
+            </div>
           </div>
 
           {/* Stats */}

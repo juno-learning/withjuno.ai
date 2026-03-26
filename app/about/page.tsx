@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Metadata } from "next";
+import { AboutGradient } from "@/components/about-gradient";
 
 export const metadata: Metadata = {
   title: "About | Juno AI",
@@ -7,36 +8,46 @@ export const metadata: Metadata = {
     "Meet the team behind Juno AI — leading academics across ML and education from UNSW Sydney.",
 };
 
-const TEAM_MEMBERS = [
+type TeamMember = {
+  name: string;
+  role: string;
+  photo?: string;
+  initials?: string;
+};
+
+const FOUNDERS: TeamMember[] = [
   {
-    name: "Alex Chen",
-    role: "CEO & Co-founder",
-    bio: "Former ML lead at DeepMind. PhD in computational linguistics from Stanford.",
-    photo: "/team/person1.jpg",
+    name: "Dr Jake Renzella",
+    role: "Director & Secretary",
+    photo: "/team/jake-renzella.jpg",
   },
   {
-    name: "Sarah Mitchell",
-    role: "CTO & Co-founder",
-    bio: "Ex-Google Brain. Built large-scale training infrastructure for LLMs.",
-    photo: "/team/person2.jpg",
+    name: "Dr Sasha Vassar",
+    role: "Director & Secretary",
+    photo: "/team/sasha-vassar.jpg",
   },
   {
-    name: "James O'Brien",
-    role: "Head of Research",
-    bio: "Published 40+ papers on NLP and education technology. Previously at Allen AI.",
-    photo: "/team/person3.jpg",
+    name: "Dr Hammond Pearce",
+    role: "Director",
+    photo: "/team/hammond-pearce.jpg",
   },
   {
-    name: "Maya Patel",
-    role: "Head of Product",
-    bio: "10 years in edtech. Led product at Coursera and Khan Academy.",
-    photo: "/team/person4.jpg",
+    name: "A/Prof Andrew Taylor",
+    role: "Director",
+    photo: "/team/andrew-taylor.jpg",
+  },
+];
+
+const ENGINEERING: TeamMember[] = [
+  {
+    name: "Lorenzo Lee Solano",
+    role: "Engineering",
+    initials: "LS",
   },
   {
-    name: "Tom Nguyen",
-    role: "Head of Engineering",
-    bio: "Scaled infra at Stripe and Canva. Specialises in ML systems.",
-    photo: "/team/person5.jpg",
+    name: "Kenneth Zhang",
+    role: "Engineering",
+    initials: "KZ",
   },
 ];
 
@@ -58,20 +69,61 @@ export default function AboutPage() {
           in Sydney, Australia. We are looking for exceptional founding staff.
         </p>
 
+        <div className="mb-16">
+          <AboutGradient />
+        </div>
+
         <h3 className="text-sm font-medium mb-6 text-muted-foreground uppercase tracking-wider">
-          Team
+          Founders
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-          {TEAM_MEMBERS.map((member) => (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {FOUNDERS.map((member) => (
             <div key={member.name}>
               <div className="aspect-square w-full overflow-hidden rounded-lg">
-                <Image
-                  src={member.photo}
-                  alt={member.name}
-                  width={200}
-                  height={200}
-                  className="w-full h-full object-cover"
-                />
+                {member.photo ? (
+                  <Image
+                    src={member.photo}
+                    alt={member.name}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-muted flex items-center justify-center">
+                    <span className="text-2xl font-medium text-muted-foreground">
+                      {member.initials}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <p className="text-sm font-medium mt-3">{member.name}</p>
+              <p className="text-xs text-muted-foreground">{member.role}</p>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-medium mb-6 mt-16 text-muted-foreground uppercase tracking-wider">
+          Engineering
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {ENGINEERING.map((member) => (
+            <div key={member.name}>
+              <div className="aspect-square w-full overflow-hidden rounded-lg">
+                {member.photo ? (
+                  <Image
+                    src={member.photo}
+                    alt={member.name}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-muted flex items-center justify-center">
+                    <span className="text-2xl font-medium text-muted-foreground">
+                      {member.initials}
+                    </span>
+                  </div>
+                )}
               </div>
               <p className="text-sm font-medium mt-3">{member.name}</p>
               <p className="text-xs text-muted-foreground">{member.role}</p>

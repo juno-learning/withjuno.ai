@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
-import katex from "katex";
 import "katex/dist/katex.min.css";
+import mathHtml from "./katex-prerendered.json";
 
 // ─── Tab bar (floating, overlays content) ───────────────────────────────────
 
@@ -47,12 +47,7 @@ function TabBar({
 
 // ─── Maths view (clean, compact, no terminal) ──────────────────────────────
 
-function MathBlock({ latex, isDark }: { latex: string; isDark: boolean }) {
-  const html = katex.renderToString(latex, {
-    displayMode: true,
-    throwOnError: false,
-    output: "html",
-  });
+function MathBlock({ html, isDark }: { html: string; isDark: boolean }) {
   return (
     <div
       className="my-1.5 px-3 py-2 rounded-md text-sm"
@@ -64,12 +59,7 @@ function MathBlock({ latex, isDark }: { latex: string; isDark: boolean }) {
   );
 }
 
-function InlineMath({ latex }: { latex: string }) {
-  const html = katex.renderToString(latex, {
-    displayMode: false,
-    throwOnError: false,
-    output: "html",
-  });
+function InlineMath({ html }: { html: string }) {
   return <span dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
@@ -117,7 +107,7 @@ function MathsView({
             className="rounded-2xl rounded-tr-sm px-4 py-2.5 text-[13px]"
             style={{ background: bubbleBg, fontFamily: "var(--font-body-serif), serif" }}
           >
-            What is the derivative of <InlineMath latex="f(x) = x^3 - 4x^2 + 5" />?
+            What is the derivative of <InlineMath html={mathHtml.questionInline} />?
           </div>
         </div>
       )}
@@ -134,12 +124,12 @@ function MathsView({
       )}
 
       {visible >= 4 && (
-        <MathBlock latex="\\frac{d}{dx}\\,x^n = n \\cdot x^{\\,n-1}" isDark={isDark} />
+        <MathBlock html={mathHtml.powerRule} isDark={isDark} />
       )}
 
       {visible >= 5 && (
         <p className="text-[13px] mt-3" style={{ fontFamily: "var(--font-body-serif), serif" }}>
-          Try applying it to each term. Start with <InlineMath latex="x^3" />{`\u2014what do you get when you bring the exponent down and reduce it by one? Then do `}<InlineMath latex="-4x^2" />{`. What happens to the constant `}<InlineMath latex="5" />{`?`}
+          Try applying it to each term. Start with <InlineMath html={mathHtml.termX3} />{`\u2014what do you get when you bring the exponent down and reduce it by one? Then do `}<InlineMath html={mathHtml.termNeg4x2} />{`. What happens to the constant `}<InlineMath html={mathHtml.term5} />{`?`}
         </p>
       )}
 
@@ -319,9 +309,6 @@ export function HeroShowcase({ startAnimation }: { startAnimation: boolean }) {
   }, [startAnimation, activeTab, animatedTabs]);
 
   const bg = isDark ? "#0e1113" : "#ffffff";
-  const chromeBg = isDark ? "#161a1e" : "#f5f5f5";
-  const borderColor = isDark ? "#2a2f38" : "#e5e7eb";
-  const mutedColor = isDark ? "#7a8599" : "#6b7280";
   const showProg = activeTab === "programming";
 
   return (
@@ -329,21 +316,6 @@ export function HeroShowcase({ startAnimation }: { startAnimation: boolean }) {
       className="h-full w-full flex flex-col rounded-3xl overflow-hidden"
       style={{ background: bg }}
     >
-      {/* Window chrome */}
-      <div
-        className="flex items-center px-4 py-3 shrink-0"
-        style={{ background: chromeBg, borderBottom: `1px solid ${borderColor}` }}
-      >
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-          <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-          <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-          <span className="ml-3 text-xs" style={{ color: mutedColor }}>
-            {showProg ? "dcc-help" : "juno"}
-          </span>
-        </div>
-      </div>
-
       {/* Content area with floating tab bar */}
       <div className="relative flex-1 overflow-hidden flex flex-col">
         {/* Floating tab bar — overlays content */}
