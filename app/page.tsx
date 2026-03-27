@@ -110,6 +110,7 @@ const INTENT_OPTIONS = [
   "I have a question",
   "Partnership inquiry",
   "Just browsing",
+  "Other",
 ] as const;
 
 const contactFormSchema = z.object({
@@ -151,12 +152,9 @@ function HeroContactForm() {
         body: formData,
       });
       const responseData = await res.json();
-      if (responseData.success) {
-        toast.success("Thanks! We\u2019ll be in touch.");
-        form.reset();
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      if (!responseData.success) throw new Error();
+      toast.success("Thanks! We\u2019ll be in touch.");
+      form.reset();
     } catch {
       toast.error("Something went wrong. Please try again.");
     }
@@ -210,7 +208,7 @@ function HeroContactForm() {
               <FormItem>
                 <Select
                   onValueChange={field.onChange}
-                  value={field.value}
+                  value={field.value ?? ""}
                 >
                   <FormControl>
                     <SelectTrigger className="rounded-full px-5 h-11 bg-card border-border">
@@ -223,7 +221,6 @@ function HeroContactForm() {
                         {opt}
                       </SelectItem>
                     ))}
-                    <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

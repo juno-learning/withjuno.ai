@@ -59,7 +59,7 @@ export default function RootLayout({
             <SiteFooter />
           </div>
         </ThemeProvider>
-        <Toaster />
+        <Toaster position="bottom-left" />
         <Analytics />
       </body>
     </html>

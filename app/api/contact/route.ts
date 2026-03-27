@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
       intent?: string;
     };
 
-    // Validate email
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json(
         { error: "A valid email is required." },
