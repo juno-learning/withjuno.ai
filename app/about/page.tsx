@@ -18,23 +18,31 @@ type TeamMember = {
 const FOUNDERS: TeamMember[] = [
   {
     name: "Dr Jake Renzella",
-    role: "Director & Secretary",
-    photo: "/team/jake-renzella.jpg",
+    role: "Director",
+    photo: "/team/new/jake.png",
   },
   {
     name: "Dr Sasha Vassar",
-    role: "Director & Secretary",
-    photo: "/team/sasha-vassar.jpg",
+    role: "Director",
+    photo: "/team/new/sasha.png",
   },
   {
     name: "Dr Hammond Pearce",
-    role: "Director",
-    photo: "/team/hammond-pearce.jpg",
+    photo: "/team/new/hammond.png",
+    role: "",
   },
   {
     name: "A/Prof Andrew Taylor",
-    role: "Director",
-    photo: "/team/andrew-taylor.jpg",
+    photo: "/team/new/andrew.png",
+    role: "",
+  },
+];
+
+const ADVISORS: TeamMember[] = [
+  {
+    name: "Mr Gary Liang",
+    role: "",
+    initials: "GL",
   },
 ];
 
@@ -47,7 +55,7 @@ const ENGINEERING: TeamMember[] = [
   {
     name: "Kenneth Zhang",
     role: "Engineering",
-    initials: "KZ",
+    photo: "/team/new/kenneth.png",
   },
 ];
 
@@ -65,8 +73,10 @@ export default function AboutPage() {
           className="text-lg lg:text-xl text-muted-foreground mb-16 max-w-2xl"
           style={{ fontFamily: "var(--font-body-serif), serif" }}
         >
-          We are a team of leading academics across ML and education from UNSW
-          in Sydney, Australia. We are looking for exceptional founding staff.
+          We are a team of leading academics across machine learning and
+          education from UNSW in Sydney, Australia. We are looking for
+          exceptional founding staff to help us build across every part of the
+          business, from engineering and operations to sales and beyond.
         </p>
 
         <div className="mb-16">
@@ -97,7 +107,7 @@ export default function AboutPage() {
                 )}
               </div>
               <p className="text-sm font-medium mt-3">{member.name}</p>
-              <p className="text-xs text-muted-foreground">{member.role}</p>
+              {member.role && <p className="text-xs text-muted-foreground">{member.role}</p>}
             </div>
           ))}
         </div>
@@ -126,7 +136,36 @@ export default function AboutPage() {
                 )}
               </div>
               <p className="text-sm font-medium mt-3">{member.name}</p>
-              <p className="text-xs text-muted-foreground">{member.role}</p>
+              {member.role && <p className="text-xs text-muted-foreground">{member.role}</p>}
+            </div>
+          ))}
+        </div>
+
+        <h3 className="text-sm font-medium mb-6 mt-16 text-muted-foreground uppercase tracking-wider">
+          Advisors
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {ADVISORS.map((member) => (
+            <div key={member.name}>
+              <div className="aspect-square w-full overflow-hidden rounded-lg">
+                {member.photo ? (
+                  <Image
+                    src={member.photo}
+                    alt={member.name}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-muted flex items-center justify-center">
+                    <span className="text-2xl font-medium text-muted-foreground">
+                      {member.initials}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <p className="text-sm font-medium mt-3">{member.name}</p>
+              {member.role && <p className="text-xs text-muted-foreground">{member.role}</p>}
             </div>
           ))}
         </div>
