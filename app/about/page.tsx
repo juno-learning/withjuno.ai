@@ -40,7 +40,7 @@ const FOUNDERS: TeamMember[] = [
 
 const ADVISORS: TeamMember[] = [
   {
-    name: "Mr Gary Liang",
+    name: "Gary Liang",
     role: "",
     initials: "GL",
   },
