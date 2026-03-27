@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Geist, Geist_Mono, JetBrains_Mono, Instrument_Serif, Lora } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { Toaster } from 'sonner'
 import { TopNav } from '@/components/top-nav'
 import { SiteFooter } from '@/components/site-footer'
 import './globals.css'
@@ -58,6 +59,7 @@ export default function RootLayout({
             <SiteFooter />
           </div>
         </ThemeProvider>
+        <Toaster />
         <Analytics />
       </body>
     </html>

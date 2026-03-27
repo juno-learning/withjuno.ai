@@ -4,8 +4,27 @@ import Image from "next/image";
 import { Dithering } from "@paper-design/shaders-react";
 import { useState, useEffect, memo } from "react";
 import { useTheme } from "next-themes";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 import { HeroShowcase } from "@/components/hero-showcase";
 
 function PartnerLogos() {
@@ -86,65 +105,159 @@ const HeroArtwork = memo(function HeroArtwork() {
   );
 });
 
-function HeroContactForm() {
-  const [email, setEmail] = useState("");
-  const [result, setResult] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+const INTENT_OPTIONS = [
+  "I want early access",
+  "I have a question",
+  "Partnership inquiry",
+  "Just browsing",
+] as const;
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSubmitting(true);
-    setResult("");
-    const formData = new FormData();
-    formData.append("access_key", "d819be19-8edf-4421-90b3-8793f9280ce5");
-    formData.append("email", email);
-    formData.append("subject", "New contact from landing page");
+const contactFormSchema = z.object({
+  email: z.string().email("Please enter a valid email address."),
+  name: z.string().optional(),
+  intent: z.string().optional(),
+  otherIntent: z.string().optional(),
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+function HeroContactForm() {
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      email: "",
+      name: "",
+      intent: "",
+      otherIntent: "",
+    },
+  });
+
+  const watchIntent = form.watch("intent");
+
+  async function onSubmit(data: ContactFormValues) {
     try {
+      const formData = new FormData();
+      formData.append("access_key", "d819be19-8edf-4421-90b3-8793f9280ce5");
+      formData.append("email", data.email);
+      formData.append("name", data.name || "Not provided");
+      formData.append("subject", "New contact from landing page");
+      const intentValue =
+        data.intent === "Other"
+          ? data.otherIntent || "Other"
+          : data.intent || "Not specified";
+      formData.append("intent", intentValue);
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: formData,
       });
-      const data = await res.json();
-      if (data.success) {
-        setResult("Thanks! We\u2019ll be in touch.");
-        setEmail("");
+      const responseData = await res.json();
+      if (responseData.success) {
+        toast.success("Thanks! We\u2019ll be in touch.");
+        form.reset();
       } else {
-        setResult("Something went wrong.");
+        toast.error("Something went wrong. Please try again.");
       }
     } catch {
-      setResult("Something went wrong.");
-    } finally {
-      setSubmitting(false);
+      toast.error("Something went wrong. Please try again.");
     }
   }
 
   return (
     <div className="mt-8 max-w-md">
-      <form onSubmit={handleSubmit} className="flex flex-row gap-2">
-        <Input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          required
-          className="flex-1 min-w-0 rounded-full px-5 h-11 bg-card border-border"
-        />
-        <Button
-          type="submit"
-          disabled={submitting}
-          className="rounded-full h-11 px-6 shrink-0"
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-3"
         >
-          {submitting ? "Sending..." : "Get in touch"}
-        </Button>
-      </form>
-      {result && (
-        <p
-          className="text-sm text-muted-foreground mt-3"
-          style={{ fontFamily: "var(--font-body-serif), serif" }}
-        >
-          {result}
-        </p>
-      )}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="Email *"
+                    className="rounded-full px-5 h-11 bg-card border-border"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="Name (optional)"
+                    className="rounded-full px-5 h-11 bg-card border-border"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="intent"
+            render={({ field }) => (
+              <FormItem>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="rounded-full px-5 h-11 bg-card border-border">
+                      <SelectValue placeholder="What brings you here?" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {INTENT_OPTIONS.map((opt) => (
+                      <SelectItem key={opt} value={opt}>
+                        {opt}
+                      </SelectItem>
+                    ))}
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {watchIntent === "Other" && (
+            <FormField
+              control={form.control}
+              name="otherIntent"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      placeholder="Tell us more..."
+                      rows={3}
+                      className="rounded-2xl px-5 py-3 bg-card border-border resize-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            className="rounded-full h-11 px-6 w-full"
+          >
+            {form.formState.isSubmitting ? "Sending..." : "Get in touch"}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 }
@@ -209,12 +322,12 @@ export default function HomePage() {
               >
                 Compiler-integrated AI that meets students where they are.{" "}
                 <a
-                  href="https://github.com/COMP1511UNSW/dcc"
+                  href="https://dcc.cse.unsw.edu.au"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary hover:text-primary/80 underline underline-offset-2 transition-colors"
+                  className="text-muted-foreground hover:text-foreground/80 transition-colors"
                 >
-                  See DCC
+                  Learn more →
                 </a>
               </p>
             </div>
