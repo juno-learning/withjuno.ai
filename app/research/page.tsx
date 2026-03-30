@@ -150,7 +150,7 @@ function PublicationCard({ pub }: { pub: Publication }) {
         {/* Abstract preview if available */}
         {pub.abstract && (
           <p
-            className="text-sm text-muted-foreground leading-relaxed mt-1"
+            className="text-sm text-muted-foreground mt-1"
             style={{ fontFamily: "var(--font-body-serif), serif" }}
           >
             {pub.abstract}
@@ -203,7 +203,7 @@ export default function ResearchPage() {
             Building AI with educational instincts
           </h1>
           <p
-            className="text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed"
+            className="text-lg lg:text-xl text-muted-foreground max-w-2xl"
             style={{ fontFamily: "var(--font-body-serif), serif" }}
           >
             Our peer-reviewed research explores how fine-tuned language models
