@@ -115,7 +115,7 @@ const INTENT_OPTIONS = [
 
 const contactFormSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
-  name: z.string().optional(),
+  name: z.string().min(1, "Please enter your name."),
   intent: z.string().optional(),
   otherIntent: z.string().optional(),
 });
@@ -140,7 +140,7 @@ function HeroContactForm() {
       const formData = new FormData();
       formData.append("access_key", "d819be19-8edf-4421-90b3-8793f9280ce5");
       formData.append("email", data.email);
-      formData.append("name", data.name || "Not provided");
+      formData.append("name", data.name);
       formData.append("subject", "New contact from landing page");
       const intentValue =
         data.intent === "Other"
@@ -193,7 +193,7 @@ function HeroContactForm() {
                   <Input
                     {...field}
                     type="text"
-                    placeholder="Name (optional)"
+                    placeholder="Name *"
                     className="rounded-full px-5 h-11 bg-card border-border"
                   />
                 </FormControl>
