@@ -271,14 +271,15 @@ export default function HomePage() {
               className="text-5xl lg:text-6xl leading-tight mb-6 text-foreground"
               style={{ fontFamily: "var(--font-serif), serif" }}
             >
-              Foundation <strong className="font-normal italic">models</strong> for{" "}
-              <strong className="font-normal italic">education</strong>
+                AI help.{" "}
+                <br />
+                Human learning.
             </h1>
             <p
               className="text-lg lg:text-xl text-muted-foreground"
               style={{ fontFamily: "var(--font-body-serif), serif" }}
             >
-              {"We\u2019re designing tools for bold institutions who care deeply about learning."}
+              {"Juno AI is for institutions"}<br />{"who care deeply about learning."}
             </p>
             <HeroContactForm />
           </div>
