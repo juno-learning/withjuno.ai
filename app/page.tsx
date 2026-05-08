@@ -105,6 +105,14 @@ const HeroArtwork = memo(function HeroArtwork() {
   );
 });
 
+const INTENT_OPTIONS = [
+  "I want early access",
+  "I have a question",
+  "Partnership inquiry",
+  "Just browsing",
+  "Other",
+] as const;
+
 const REFERRAL_OPTIONS = [
   "Search engine",
   "Social media",
@@ -117,6 +125,7 @@ const REFERRAL_OPTIONS = [
 const contactFormSchema = z.object({
   name: z.string().min(1, "Please enter your name."),
   email: z.string().email("Please enter a valid email address."),
+  intent: z.string().optional(),
   message: z.string().min(1, "Please enter a message."),
   referral: z.string().optional(),
   // Honeypot — must stay empty. Real users never see this field.
@@ -131,6 +140,7 @@ function HeroContactForm() {
     defaultValues: {
       name: "",
       email: "",
+      intent: "",
       message: "",
       referral: "",
       website: "",
@@ -190,6 +200,32 @@ function HeroContactForm() {
                     className="rounded-full px-5 h-11 bg-card border-border"
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="intent"
+            render={({ field }) => (
+              <FormItem>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value ?? ""}
+                >
+                  <FormControl>
+                    <SelectTrigger className="rounded-full px-5 h-11 bg-card border-border">
+                      <SelectValue placeholder="What brings you here?" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {INTENT_OPTIONS.map((opt) => (
+                      <SelectItem key={opt} value={opt}>
+                        {opt}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}

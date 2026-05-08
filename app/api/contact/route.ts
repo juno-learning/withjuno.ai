@@ -5,6 +5,7 @@ export const runtime = "nodejs";
 type ContactPayload = {
   name?: string;
   email?: string;
+  intent?: string;
   message?: string;
   referral?: string;
   website?: string;
@@ -30,6 +31,7 @@ export async function POST(req: NextRequest) {
 
     const name = clean(body.name);
     const email = clean(body.email);
+    const intent = clean(body.intent);
     const message = clean(body.message);
     const referral = clean(body.referral);
 
@@ -69,6 +71,7 @@ export async function POST(req: NextRequest) {
         secret,
         name,
         email,
+        intent,
         message,
         referral,
       }),

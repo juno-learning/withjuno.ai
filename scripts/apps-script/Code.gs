@@ -49,6 +49,7 @@ const HEADER_ROW = [
   "Timestamp",
   "Name",
   "Email",
+  "Intent",
   "Message",
   "Referral source",
 ];
@@ -89,6 +90,7 @@ function doPost(e) {
 
     const name = String(payload.name || "").trim();
     const email = String(payload.email || "").trim();
+    const intent = String(payload.intent || "").trim();
     const message = String(payload.message || "").trim();
     const referral = String(payload.referral || "").trim();
 
@@ -105,6 +107,7 @@ function doPost(e) {
       new Date(),
       name,
       email,
+      intent,
       message,
       referral,
     ]);
