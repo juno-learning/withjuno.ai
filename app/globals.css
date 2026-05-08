@@ -178,6 +178,21 @@
   @apply text-muted-foreground;
 }
 
+/* Browsers paint autofilled inputs with their own bg/text colors and
+   ignore background-color. The inset box-shadow + transition delay is
+   the standard workaround to keep our card/foreground tokens. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--card) inset;
+  -webkit-text-fill-color: var(--card-foreground);
+  caret-color: var(--card-foreground);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 /* Terminal cursor blink */
 .terminal-cursor {
   animation: blink 1s step-end infinite;

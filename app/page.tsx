@@ -105,19 +105,22 @@ const HeroArtwork = memo(function HeroArtwork() {
   );
 });
 
-const INTENT_OPTIONS = [
-  "I want early access",
-  "I have a question",
-  "Partnership inquiry",
-  "Just browsing",
+const REFERRAL_OPTIONS = [
+  "Search engine",
+  "Social media",
+  "Word of mouth",
+  "Conference or event",
+  "Press or article",
   "Other",
 ] as const;
 
 const contactFormSchema = z.object({
-  email: z.string().email("Please enter a valid email address."),
   name: z.string().min(1, "Please enter your name."),
-  intent: z.string().optional(),
-  otherIntent: z.string().optional(),
+  email: z.string().email("Please enter a valid email address."),
+  message: z.string().min(1, "Please enter a message."),
+  referral: z.string().optional(),
+  // Honeypot — must stay empty. Real users never see this field.
+  website: z.string().max(0).optional().or(z.literal("")),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -126,33 +129,23 @@ function HeroContactForm() {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      email: "",
       name: "",
-      intent: "",
-      otherIntent: "",
+      email: "",
+      message: "",
+      referral: "",
+      website: "",
     },
   });
 
-  const watchIntent = form.watch("intent");
-
   async function onSubmit(data: ContactFormValues) {
     try {
-      const formData = new FormData();
-      formData.append("access_key", "d819be19-8edf-4421-90b3-8793f9280ce5");
-      formData.append("email", data.email);
-      formData.append("name", data.name);
-      formData.append("subject", "New contact from landing page");
-      const intentValue =
-        data.intent === "Other"
-          ? data.otherIntent || "Other"
-          : data.intent || "Not specified";
-      formData.append("intent", intentValue);
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
       const responseData = await res.json();
-      if (!responseData.success) throw new Error();
+      if (!res.ok || !responseData.success) throw new Error();
       toast.success("Thanks! We\u2019ll be in touch.");
       form.reset();
     } catch {
@@ -167,23 +160,6 @@ function HeroContactForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-3"
         >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="email"
-                    placeholder="Email *"
-                    className="rounded-full px-5 h-11 bg-card border-border"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="name"
@@ -203,7 +179,41 @@ function HeroContactForm() {
           />
           <FormField
             control={form.control}
-            name="intent"
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="email"
+                    placeholder="Company email *"
+                    className="rounded-full px-5 h-11 bg-card border-border"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="Message *"
+                    rows={4}
+                    className="rounded-2xl px-5 py-3 bg-card border-border resize-none"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="referral"
             render={({ field }) => (
               <FormItem>
                 <Select
@@ -212,11 +222,11 @@ function HeroContactForm() {
                 >
                   <FormControl>
                     <SelectTrigger className="rounded-full px-5 h-11 bg-card border-border">
-                      <SelectValue placeholder="What brings you here?" />
+                      <SelectValue placeholder="How did you hear about us?" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {INTENT_OPTIONS.map((opt) => (
+                    {REFERRAL_OPTIONS.map((opt) => (
                       <SelectItem key={opt} value={opt}>
                         {opt}
                       </SelectItem>
@@ -227,25 +237,21 @@ function HeroContactForm() {
               </FormItem>
             )}
           />
-          {watchIntent === "Other" && (
-            <FormField
-              control={form.control}
-              name="otherIntent"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="Tell us more..."
-                      rows={3}
-                      className="rounded-2xl px-5 py-3 bg-card border-border resize-none"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+          <div
+            aria-hidden="true"
+            className="absolute left-[-9999px] top-auto w-px h-px overflow-hidden"
+          >
+            <label htmlFor="website">
+              Leave this field empty
+              <input
+                id="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                {...form.register("website")}
+              />
+            </label>
+          </div>
           <Button
             type="submit"
             disabled={form.formState.isSubmitting}

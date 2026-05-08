@@ -1,59 +1,95 @@
 import { NextRequest, NextResponse } from "next/server";
-import { google } from "googleapis";
 
-function getAuth() {
-  return new google.auth.GoogleAuth({
-    credentials: {
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-    },
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-  });
+export const runtime = "nodejs";
+
+type ContactPayload = {
+  name?: string;
+  email?: string;
+  message?: string;
+  referral?: string;
+  website?: string;
+};
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_FIELD = 5000;
+
+function clean(value: unknown): string {
+  if (typeof value !== "string") return "";
+  return value.trim().slice(0, MAX_FIELD);
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { email, name, intent } = body as {
-      email?: string;
-      name?: string;
-      intent?: string;
-    };
+    const body = (await req.json()) as ContactPayload;
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    // Honeypot: real users never fill this. Pretend success so bots
+    // don't retry or learn from a 400.
+    if (clean(body.website) !== "") {
+      return NextResponse.json({ success: true });
+    }
+
+    const name = clean(body.name);
+    const email = clean(body.email);
+    const message = clean(body.message);
+    const referral = clean(body.referral);
+
+    if (!name) {
+      return NextResponse.json(
+        { error: "Name is required." },
+        { status: 400 }
+      );
+    }
+    if (!email || !EMAIL_RE.test(email)) {
       return NextResponse.json(
         { error: "A valid email is required." },
         { status: 400 }
       );
     }
+    if (!message) {
+      return NextResponse.json(
+        { error: "Message is required." },
+        { status: 400 }
+      );
+    }
 
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-    if (!spreadsheetId) {
-      console.error("GOOGLE_SHEET_ID is not set");
+    const url = process.env.APPS_SCRIPT_URL;
+    const secret = process.env.APPS_SCRIPT_SECRET;
+    if (!url || !secret) {
+      console.error("APPS_SCRIPT_URL or APPS_SCRIPT_SECRET is not set");
       return NextResponse.json(
         { error: "Server configuration error." },
         { status: 500 }
       );
     }
 
-    const auth = getAuth();
-    const sheets = google.sheets({ version: "v4", auth });
-
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range: "Sheet1!A:D",
-      valueInputOption: "USER_ENTERED",
-      requestBody: {
-        values: [
-          [
-            new Date().toISOString(),
-            email,
-            name || "",
-            intent || "",
-          ],
-        ],
-      },
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        secret,
+        name,
+        email,
+        message,
+        referral,
+      }),
+      redirect: "follow",
     });
+
+    if (!res.ok) {
+      console.error("Apps Script returned non-OK", res.status);
+      return NextResponse.json(
+        { error: "Upstream error." },
+        { status: 502 }
+      );
+    }
+
+    const data = (await res.json().catch(() => ({}))) as { ok?: boolean };
+    if (!data.ok) {
+      return NextResponse.json(
+        { error: "Upstream rejected the submission." },
+        { status: 502 }
+      );
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {
