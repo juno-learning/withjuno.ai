@@ -232,23 +232,6 @@ function HeroContactForm() {
           />
           <FormField
             control={form.control}
-            name="message"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Textarea
-                    {...field}
-                    placeholder="Message *"
-                    rows={4}
-                    className="rounded-2xl px-5 py-3 bg-card border-border resize-none"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="referral"
             render={({ field }) => (
               <FormItem>
@@ -269,6 +252,23 @@ function HeroContactForm() {
                     ))}
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="Message *"
+                    rows={4}
+                    className="rounded-2xl px-5 py-3 bg-card border-border resize-none"
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
