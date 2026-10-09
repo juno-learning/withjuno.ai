@@ -53,12 +53,11 @@ const FOUNDERS: TeamMember[] = [
   },
 ];
 
-const ENGINEERING: TeamMember[] = [
-  { name: "Lorenzo Lee Solano", role: "Engineering", initials: "LS" },
-  { name: "Kenneth Zhang", role: "Engineering", photo: "/team/new/kenneth.png" },
+const ADVISORS: TeamMember[] = [
+  { name: "Beste Onay", role: "Advisor", photo: "/team/new/beste.png" },
+  { name: "David Walker", role: "Advisor", initials: "DW" },
+  { name: "Gary Liang", role: "Advisor", initials: "GL" },
 ];
-
-const ADVISORS: TeamMember[] = [{ name: "Gary Liang", role: "Advisor", initials: "GL" }];
 
 function ExternalIcon() {
   return (
@@ -184,15 +183,6 @@ export default function AboutPage() {
           {FOUNDERS.map((m) => (
             <FounderCard key={m.name} member={m} />
           ))}
-        </div>
-
-        <div className="mt-16">
-          <SectionLabel>Engineering</SectionLabel>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {ENGINEERING.map((m) => (
-              <MemberCard key={m.name} member={m} />
-            ))}
-          </div>
         </div>
 
         <div className="mt-16">
