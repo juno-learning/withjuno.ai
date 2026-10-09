@@ -129,12 +129,8 @@ function StudentView({ active }: { active: boolean }) {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-5 py-3 border-b border-border/60 text-xs text-muted-foreground">
-        <span>Juno &middot; COMP1511 Lab 4</span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="size-1.5 rounded-full bg-primary" />
-          Guided mode
-        </span>
+      <div className="px-5 py-3 border-b border-border/60 text-xs text-muted-foreground">
+        Juno &middot; COMP1511 Lab 4
       </div>
 
       <div
@@ -217,12 +213,8 @@ function InstructorView({ active }: { active: boolean }) {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-5 py-3 border-b border-border/60 text-xs text-muted-foreground">
-        <span>Instructor dashboard &middot; COMP1511 &middot; Week 4</span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="size-1.5 rounded-full bg-emerald-500" />
-          Live
-        </span>
+      <div className="px-5 py-3 border-b border-border/60 text-xs text-muted-foreground">
+        Instructor dashboard &middot; COMP1511 &middot; Week 4
       </div>
 
       <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-5">
