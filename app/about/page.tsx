@@ -23,40 +23,55 @@ type TeamMember = {
 const FOUNDERS: TeamMember[] = [
   {
     name: "Dr Sasha Vassar",
-    role: "Director",
+    role: "Co-Founder & Director",
     specialty:
       "Pedagogy, cognitive load theory, and empirical evaluation design.",
     photo: "/team/new/sasha.png",
-    links: [],
+    links: [{ label: "LinkedIn", href: "https://au.linkedin.com/in/sashavassar" }],
   },
   {
     name: "Dr Jake Renzella",
-    role: "Director",
+    role: "Co-Founder & Director",
     specialty:
       "K-12 AI literacy; machine learning, applied AI, and scaling EdTech for higher education.",
     photo: "/team/new/jake.png",
-    links: [{ label: "LinkedIn", href: "https://www.linkedin.com/in/jakemre/" }],
+    links: [{ label: "LinkedIn", href: "https://au.linkedin.com/in/jakerenzella" }],
   },
   {
     name: "Dr Hammond Pearce",
-    role: "Integration Specialist",
+    role: "Co-Founder",
     specialty: "Hardware and software security, LLM safety.",
     photo: "/team/new/hammond.png",
-    links: [],
+    links: [{ label: "LinkedIn", href: "https://au.linkedin.com/in/hammond-pearce" }],
   },
   {
     name: "A/Prof Andrew Taylor",
-    role: "Technical Advisor",
+    role: "Co-Founder",
     specialty: "Education tooling.",
     photo: "/team/new/andrew.png",
-    links: [],
+    links: [{ label: "LinkedIn", href: "https://au.linkedin.com/in/andrew-taylor-4149485a" }],
   },
 ];
 
 const ADVISORS: TeamMember[] = [
-  { name: "Beste Onay", role: "Advisor", photo: "/team/new/beste.png" },
-  { name: "David Walker", role: "Advisor", initials: "DW" },
-  { name: "Gary Liang", role: "Advisor", initials: "GL" },
+  {
+    name: "Beste Onay",
+    role: "Advisor",
+    photo: "/team/new/beste.png",
+    links: [{ label: "LinkedIn", href: "https://au.linkedin.com/in/beste-onay-a4872667" }],
+  },
+  {
+    name: "David Walker",
+    role: "Advisor",
+    photo: "/team/new/david.png",
+    links: [{ label: "LinkedIn", href: "https://au.linkedin.com/in/davidkwalker1" }],
+  },
+  {
+    name: "Gary Liang",
+    role: "Advisor",
+    photo: "/team/new/gary.jpg",
+    links: [{ label: "LinkedIn", href: "https://www.linkedin.com/in/lianggary" }],
+  },
 ];
 
 function ExternalIcon() {
@@ -101,6 +116,26 @@ function Headshot({ member }: { member: TeamMember }) {
   );
 }
 
+function ProfileLinks({ links, className = "mt-3" }: { links?: ProfileLink[]; className?: string }) {
+  if (!links || links.length === 0) return null;
+  return (
+    <div className={`flex flex-wrap gap-x-4 gap-y-1 ${className}`}>
+      {links.map((l) => (
+        <a
+          key={l.href}
+          href={l.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+        >
+          {l.label}
+          <ExternalIcon />
+        </a>
+      ))}
+    </div>
+  );
+}
+
 function FounderCard({ member }: { member: TeamMember }) {
   return (
     <div className="flex flex-col">
@@ -117,22 +152,7 @@ function FounderCard({ member }: { member: TeamMember }) {
           {member.specialty}
         </p>
       )}
-      {member.links && member.links.length > 0 && (
-        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-          {member.links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {l.label}
-              <ExternalIcon />
-            </a>
-          ))}
-        </div>
-      )}
+      <ProfileLinks links={member.links} />
     </div>
   );
 }
@@ -143,6 +163,7 @@ function MemberCard({ member }: { member: TeamMember }) {
       <Headshot member={member} />
       <p className="text-sm font-medium mt-3">{member.name}</p>
       {member.role && <p className="text-xs text-muted-foreground">{member.role}</p>}
+      <ProfileLinks links={member.links} className="mt-2" />
     </div>
   );
 }
