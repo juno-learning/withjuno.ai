@@ -130,7 +130,7 @@ function StudentView({ active }: { active: boolean }) {
   return (
     <div className="flex flex-col h-full">
       <div className="px-5 py-3 border-b border-border/60 text-xs text-muted-foreground">
-        Juno &middot; COMP1511 Lab 4
+        Juno &middot; Lab 4
       </div>
 
       <div
@@ -214,7 +214,7 @@ function InstructorView({ active }: { active: boolean }) {
   return (
     <div className="flex flex-col h-full">
       <div className="px-5 py-3 border-b border-border/60 text-xs text-muted-foreground">
-        Instructor dashboard &middot; COMP1511 &middot; Week 4
+        Instructor dashboard &middot; Week 4
       </div>
 
       <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-5">
