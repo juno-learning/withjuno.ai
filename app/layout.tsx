@@ -17,14 +17,14 @@ const lora = Lora({ subsets: ["latin"], variable: "--font-body-serif" });
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.withjuno.ai'),
   title: 'Juno AI | Pedagogical AI for Education',
-  description: 'Building artificial intelligence that benefits all learners. Pedagogically sound, privacy-first AI models for education.',
+  description: 'Pedagogically sound, privacy-first AI for education, built by the researchers behind it. Juno guides learners instead of answering for them.',
   generator: 'v0.app',
   appleWebApp: {
     title: 'Juno',
   },
   openGraph: {
     title: 'Juno AI | Pedagogical AI for Education',
-    description: 'Building artificial intelligence that benefits all learners. Pedagogically sound, privacy-first AI models for education.',
+    description: 'Pedagogically sound, privacy-first AI for education, built by the researchers behind it. Juno guides learners instead of answering for them.',
     images: [
       {
         url: '/opengraph.jpg',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Juno AI | Pedagogical AI for Education',
-    description: 'Building artificial intelligence that benefits all learners. Pedagogically sound, privacy-first AI models for education.',
+    description: 'Pedagogically sound, privacy-first AI for education, built by the researchers behind it. Juno guides learners instead of answering for them.',
     images: ['/opengraph.jpg'],
   },
 }
@@ -48,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`font-sans antialiased ${geist.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} ${lora.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex flex-col min-h-screen">

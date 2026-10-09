@@ -16,11 +16,14 @@ type Publication = {
   tags: string[];
   href?: string;
   abstract?: string;
+  /** One line on why this paper matters to Juno. */
+  impact: string;
 };
 
 const PUBLICATIONS: Publication[] = [
   {
     id: "solano2026fine",
+    impact: "Tests open-source models against proprietary ones for keeping student data in-house.",
     title:
       "Fine-Tuning Open-Source Models as a Viable Alternative to Proprietary LLMs for Explaining Compiler Messages",
     venue: "Forthcoming",
@@ -30,6 +33,7 @@ const PUBLICATIONS: Publication[] = [
   },
   {
     id: "solano2025narrowing",
+    impact: "The technical basis for Juno\u2019s privacy-first, self-hosted approach.",
     title:
       "Narrowing the Gap: Supervised Fine-Tuning of Open-Source LLMs as a Viable Alternative to Proprietary Models for Pedagogical Tools",
     venue: "arXiv preprint arXiv:2507.05305",
@@ -40,6 +44,7 @@ const PUBLICATIONS: Publication[] = [
   },
   {
     id: "ross2025supervised",
+    impact: "The method behind Juno\u2019s \u201cguide, don\u2019t give away the answer\u201d behaviour.",
     title:
       "Supervised Fine-Tuning LLMs to Behave as Pedagogical Agents in Programming Education",
     venue: "arXiv preprint arXiv:2502.20527",
@@ -50,6 +55,7 @@ const PUBLICATIONS: Publication[] = [
   },
   {
     id: "renzella2025compiler",
+    impact: "The system now running as Juno\u2019s tutoring layer.",
     title:
       "Compiler-Integrated, Conversational AI for Debugging CS1 Programs",
     venue:
@@ -62,6 +68,7 @@ const PUBLICATIONS: Publication[] = [
   },
   {
     id: "vassar2024towards",
+    impact: "Early groundwork: fine-tuning, not prompting, makes a model teach.",
     title:
       "Towards Pedagogical LLMs with Supervised Fine Tuning for Computing Education",
     venue: "arXiv preprint arXiv:2411.01765",
@@ -72,6 +79,7 @@ const PUBLICATIONS: Publication[] = [
   },
   {
     id: "vassar2024fine",
+    impact: "Direct predecessor to Juno\u2019s error-explanation feature.",
     title:
       "Fine-Tuning Large Language Models for Better Programming Error Explanations",
     venue:
@@ -84,6 +92,7 @@ const PUBLICATIONS: Publication[] = [
   },
   {
     id: "taylor2024dcc",
+    impact: "The origin point. Still running at UNSW with 50M+ uses.",
     title:
       "dcc --help: Transforming the Role of the Compiler by Generating Context-Aware Error Explanations with Large Language Models",
     venue:
@@ -138,6 +147,14 @@ function PublicationCard({ pub }: { pub: Publication }) {
         ) : (
           titleElement
         )}
+
+        {/* Why it matters to Juno */}
+        <p
+          className="text-sm lg:text-base text-foreground/85 border-l-2 border-primary pl-3"
+          style={{ fontFamily: "var(--font-body-serif), serif" }}
+        >
+          {pub.impact}
+        </p>
 
         {/* Venue full */}
         <p
@@ -206,10 +223,9 @@ export default function ResearchPage() {
             className="text-lg lg:text-xl text-muted-foreground max-w-2xl"
             style={{ fontFamily: "var(--font-body-serif), serif" }}
           >
-            Our peer-reviewed research explores how fine-tuned language models
-            can serve as genuine pedagogical tools in computing education —
-            explaining errors, guiding debugging, and fostering deeper
-            understanding.
+            Years of peer-reviewed research into fine-tuned language models
+            that explain, guide, and teach, not just answer. This research
+            powers Juno&rsquo;s tutoring engine today.
           </p>
         </div>
       </section>
@@ -239,7 +255,8 @@ export default function ResearchPage() {
             className="text-base text-muted-foreground mb-8"
             style={{ fontFamily: "var(--font-body-serif), serif" }}
           >
-            Peer-reviewed and preprint research from our team.
+            Peer-reviewed and preprint research from our team, and what each
+            paper contributes to Juno.
           </p>
 
           {PUBLICATIONS.map((pub) => (

@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
+import { useMounted } from "@/hooks/use-mounted";
 import { Button } from "@/components/ui/button";
 import { JunoLogo } from "@/components/juno-logo";
 
 export function TopNav() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => setMounted(true), []);
   const isDarkMode = resolvedTheme === "dark";
 
   // Lock body scroll when menu is open
@@ -43,6 +43,9 @@ export function TopNav() {
             >
               About
             </Link>
+            <Button asChild size="sm" className="rounded-full px-4">
+              <Link href="/#contact">Book a demo</Link>
+            </Button>
           </div>
           <Button
             variant="ghost"
@@ -152,6 +155,11 @@ export function TopNav() {
             >
               About
             </Link>
+            <Button asChild className="rounded-full h-11 px-6 mt-4">
+              <Link href="/#contact" onClick={() => setMenuOpen(false)}>
+                Book a demo
+              </Link>
+            </Button>
           </div>
         </div>
       )}

@@ -2,12 +2,11 @@
 
 import { MeshGradient } from "@paper-design/shaders-react";
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
+import { useMounted } from "@/hooks/use-mounted";
 
 export function ResearchDithering() {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
   const isDarkMode = mounted && resolvedTheme === "dark";
 
   return (
